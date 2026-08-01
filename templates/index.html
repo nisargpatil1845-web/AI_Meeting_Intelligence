@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Meeting Intelligence</title>
+    <a href="/history">
+    <button>📜 Meeting History</button>
+    </a>
+
+    <a href="/history">
+    <button>📊 Sentiment Bar Chart</button>
+    </a>
+</head>
+
+<body>
+
+    <h1>AI Meeting Intelligence</h1>
+    <h3>Total Dataset Records : {{ total_records }}</h3>
+    <h2>Meeting Sentiment</h2>
+    <h3>{{ sentiment }}</h3>
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br><br>
+        <button type="submit">Upload & Transcribe</button>
+    </form>
+
+    {% if transcript %}
+    <hr>
+    <h2>Meeting Transcript</h2>
+    <textarea rows="20" cols="100">{{ transcript }}</textarea>
+    {% endif %}
+
+    {% if summary %}
+    <hr>
+    <h2>Meeting Summary</h2>
+    <textarea rows="8" cols="100">{{ summary }}</textarea>
+    {% endif %}
+    <hr>
+
+    <h2>Meeting Keywords</h2>
+
+    <ul>
+    {% for word in keywords %}
+    <li>{{ word }}</li>
+    {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Meeting Keywords</h2>
+
+    <ul>
+    {% for keyword in keywords %}
+    <li>{{ keyword }}</li>
+    {% endfor %}
+    </ul>
+    <hr>
+
+    <h2>✅ Action Items</h2>
+
+    {% if action_items %}
+    <ul>
+    {% for item in action_items %}
+    <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>No action items detected.</p>
+    {% endif %}
+    
+    <h2>📌 Meeting Title</h2>
+    <h3>{{ meeting_title }}</h3>
+
+    <label>Select Language:</label>
+
+    <select name="language">
+    <option value="en">English</option>
+    <option value="hi">Hindi</option>
+    <option value="mr">Marathi</option>
+    </select>
+
+    <br><br>
+
+    <a href="/download_transcript">
+    <button>Download Transcript (.txt)</button>
+    </a>
+    <br><br>
+
+    <a href="/download_pdf">
+    <button>📄 Download Meeting Report (PDF)</button>
+    </a>
+
+<h2>Meeting Statistics</h2>
+
+<table border="1" cellpadding="10">
+<tr>
+    <th>Total Words</th>
+    <td>{{ word_count }}</td>
+</tr>
+
+<tr>
+    <th>Total Characters</th>
+    <td>{{ char_count }}</td>
+</tr>
+
+<tr>
+    <th>Summary Words</th>
+    <td>{{ summary_words }}</td>
+</tr>
+
+<tr>
+    <th>Processing Time</th>
+    <td>{{ processing_time }} seconds</td>
+</tr>
+</table>
+
+    <h2>Dataset Information</h2>
+
+    <ul>
+    <li><b>Total Records:</b> {{ total_records }}</li>
+    <li><b>Training Records:</b> {{ train_records }}</li>
+    <li><b>Validation Records:</b> {{ validation_records }}</li>
+    <li><b>Test Records:</b> {{ test_records }}</li>
+    </ul>
+
+</body>
+</html>

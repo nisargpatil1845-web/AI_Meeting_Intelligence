@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.streamlit/secrets.toml
+Meeting_Report.pdf
+meeting_history.csv
+uploads/
+secrets.toml
+Project/dataset/train.json
+Project/dataset/test.json
+Project/dataset/validation.json
+Project/dataset/

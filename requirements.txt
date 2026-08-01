@@ -1,0 +1,13 @@
+streamlit
+openai-whisper
+torch
+transformers
+sentencepiece
+google-genai
+deep-translator
+textblob
+yake
+reportlab
+pandas
+matplotlib
+ffmpeg-python
