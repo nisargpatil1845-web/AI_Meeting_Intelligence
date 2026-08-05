@@ -21,16 +21,88 @@ from sklearn.svm import LinearSVC
 from xgboost import XGBClassifier
 from sklearn.preprocessing import LabelEncoder
 from google import genai
+from dotenv import load_dotenv
 import os
+from sklearn.svm import SVC
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+print("API KEY:", GEMINI_API_KEY)
 client = genai.Client(api_key=GEMINI_API_KEY)
+print("Length =", len(GEMINI_API_KEY) if GEMINI_API_KEY else 0)
 
 print("All libraries imported successfully!")
 
 train = pd.read_json("Project/dataset/train.json", lines=True)
 validation = pd.read_json("Project/dataset/validation.json", lines=True)
 test = pd.read_json("Project/dataset/test.json", lines=True)
+
+X_train = train["transcript"]
+y_train = train["summary"]
+
+X_test = test["transcript"]
+y_test = test["summary"]
+
+vectorizer = TfidfVectorizer(max_features=5000)
+
+X_train_tfidf = vectorizer.fit_transform(X_train)
+
+X_test_tfidf = vectorizer.transform(X_test)
+
+svm_model = SVC(kernel="linear")
+
+svm_model.fit(X_train_tfidf, y_train)
+
+svm_model = SVC(kernel="linear")
+
+svm_model.fit(X_train_tfidf, y_train)
+
+svm_pred = svm_model.predict(X_test_tfidf)
+
+accuracy = accuracy_score(y_test, svm_pred)
+
+precision = precision_score(
+    y_test,
+    svm_pred,
+    average="weighted",
+    zero_division=0
+)
+
+recall = recall_score(
+    y_test,
+    svm_pred,
+    average="weighted",
+    zero_division=0
+)
+
+f1 = f1_score(
+    y_test,
+    svm_pred,
+    average="weighted",
+    zero_division=0
+)
+
+print("SVM Results")
+
+print("Accuracy :", accuracy)
+
+print("Precision :", precision)
+
+print("Recall :", recall)
+
+print("F1 Score :", f1)
+
+comparison = pd.DataFrame({
+    "Model": ["SVM"],
+    "Accuracy": [accuracy],
+    "Precision": [precision],
+    "Recall": [recall],
+    "F1 Score": [f1]
+})
+
+comparison.to_csv("model_comparison.csv", index=False)
 
 print("Train Records:", len(train))
 print("Validation Records:", len(validation))
